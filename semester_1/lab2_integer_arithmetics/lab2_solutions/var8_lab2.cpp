@@ -3,7 +3,11 @@
 int main() {
     int a, b;
     std::cout << "Enter a and b: ";
-    std::cin >> a >> b;
+    
+    if (!(std::cin >> a >> b)) {
+        std::cout << "Error: invalid input" << std::endl;
+        return 1;
+    }
 
     if (a > b) {
         int temp = a;
