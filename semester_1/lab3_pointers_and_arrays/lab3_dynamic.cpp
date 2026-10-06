@@ -5,13 +5,13 @@
 #include <iostream>
 #include <random>
 
-int checkInput(int &size) {
+int* checkInput(int &size) {
     std::cout << "Enter the size: ";
     if (!(std::cin >> size) || size <= 0) {
         std::cout << "ERROR: wrong size";
-        return 1;
+        return nullptr;
     }
-    return 0;
+    return new int[size];
 }
 
 int inputArray(int* array, int size) {
@@ -95,13 +95,15 @@ int main() {
     int n;
     int mode;
 
-    if (checkInput(n) != 0)
+    int* arr = checkInput(n);
+    if (arr == nullptr) {
         return 1;
+    }
 
-    if (askEnterMode(mode) != 0)
+    if (askEnterMode(mode) != 0) {
+        delete[] arr;
         return 1;
-
-    int* arr = new int[n];
+    }
 
     if (mode == 1) {
         if (inputArray(arr, n) != 0) {
