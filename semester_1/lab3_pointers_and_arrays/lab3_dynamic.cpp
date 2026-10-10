@@ -43,9 +43,7 @@ int enterBounds(int& a, int& b) {
     return 0;
 }
 
-void enterRandom(int* array, int size, int a, int b) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+void enterRandom(int* array, int size, int a, int b, std::mt19937 &gen) {
     std::uniform_int_distribution<int> dist(a, b);
 
     for (int i = 0; i < size; i++) {
@@ -92,6 +90,9 @@ void outputArray(int* array, int size) {
 }
 
 int main() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
     int n;
     int mode;
 
@@ -117,7 +118,7 @@ int main() {
             delete[] arr;
             return 1;
         }
-        enterRandom(arr, n, a, b);
+        enterRandom(arr, n, a, b, gen);
     }
 
     std::cout << "Original array: ";

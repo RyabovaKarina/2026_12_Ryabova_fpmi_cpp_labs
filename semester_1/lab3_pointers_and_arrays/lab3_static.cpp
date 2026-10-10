@@ -10,6 +10,7 @@ const int MAXSIZE = 10000;
 int checkInput(int &size) {
     if (!(std::cin >> size) || size > MAXSIZE || size <= 0) {
         std::cout << "ERROR: wrong size";
+        //std::exit(-1);
         return 1;
     }
     return 0;
@@ -49,9 +50,7 @@ int inputAmount(int& amount, int size) {
     return 0;
 }
 
-void enterRandom(double* array, int size, double a, double b) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+void enterRandom(double* array, int size, double a, double b, std::mt19937 &gen) {
     std::uniform_real_distribution<double> dist(a, b);
 
     for (int i = 0; i < size; i++) {
@@ -60,12 +59,12 @@ void enterRandom(double* array, int size, double a, double b) {
 }
 
 void outputArray(double* array, int size) {
-        std::cout << "[ ";
-        for (int i = 0; i < size; i++) {
-            std::cout << array[i] << " ";
-        }
-        std::cout << "]";
+    std::cout << "[ ";
+    for (int i = 0; i < size; i++) {
+        std::cout << array[i] << " ";
     }
+    std::cout << "]";
+}
 
 int findMinIndex(double* array, int size) {
     int minIndex = 0;
@@ -99,6 +98,9 @@ void removeAndAddZero(double* array, int size, int amount) {
 
 int main()
 {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
     double arr[MAXSIZE];
     int n;
     int N;
@@ -124,14 +126,20 @@ int main()
         std::cout << "Enter a and b (a <= b): ";
         if (enterBounds(a, b) != 0)
             return 1;
-        enterRandom(arr, n, a, b);
+        enterRandom(arr, n, a, b, gen);
     }
 
     std::cout << "Enter the amount of min elements: ";
     if (inputAmount(N, n) != 0)
         return 1;
 
+    std::cout << "Original array: ";
+    outputArray(arr, n);
+    std::cout << std::endl;
+
     removeAndAddZero(arr, n, N);
+
+    std::cout << "Result array:   ";
     outputArray(arr, n);
 
     return 0;
